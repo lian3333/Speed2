@@ -1,6 +1,7 @@
 package com.example.speed13;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,20 +11,41 @@ import com.example.speed13.Location;
 public class Card extends Location
 {
 
-    private int value;
+    private int value, color;
     private boolean isopen;
     private Bitmap pic;
 
 
-    public Card( int color, int value) {
+    public Card(Context context, int color, int value) {
         super(0, 0);
 
-        this.pic = pic;
+        this.color = color;
         this.isopen = false;
         this.value = value;
 
 
-    }
+
+
+
+            String resourceName="";
+            if (color==1)
+            resourceName= "r" + value;
+            else
+                resourceName="b"+value;
+            int num = context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
+
+        this.pic = BitmapFactory.decodeResource(context.getResources(), num);
+/*            if (num != 0) {
+                // Decode the bitmap from the resource
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), num);
+                if (bitmap != null) {
+                    bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
+                    deck.add(new Card(context,2,i));
+                }
+            }*/
+        }
+
+    
 
 
 

@@ -15,7 +15,7 @@ import java.util.Collections;
 
 public class
 Board extends View {
-    private ArrayList<Card> deck;
+    //private ArrayList<Card> deck;
     private Player player1;
     private Player player2;
     private Card openCard1, openCard2 ;
@@ -24,19 +24,23 @@ Board extends View {
     private int xmid,ymid;
     public GameActivity gameActivity;
     private Bitmap boardBitmap;
+    private Context context;
 
 
 
     // בנאי יחיד - מצוין לשימוש שלך ב-Start Activity
     public Board(Context context) {
         super(context);
+        this.context = context;
         // רק יוצרים את האובייקטים, לא ממקמים אותם עדיין
-        deck = new ArrayList<>();
+        //deck = new ArrayList<>();
         player1 = new Player("Player 1", context);
         player2 = new Player("Player 2", context);
+
         this.kupa1=BitmapFactory.decodeResource(getResources(),R.drawable.backcard);
         this.kupa2=BitmapFactory.decodeResource(getResources(),R.drawable.backcard);
         boardBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.bgspeed);
+
     }
 
     // הפונקציה הזו רצה אוטומטית כשהמסך נטען ויודעים את הגודל שלו
@@ -55,25 +59,22 @@ Board extends View {
 
     private void dealCards(int screenW, int screenH) {
         // 1. איפוס ויצירת חפיסה
-        deck.clear();
+        //deck.clear();
         player1.getDeck().clear();
         player2.getDeck().clear();
-        for(int n=1; n<=13; n++){
-            for(int c=1; c<=2; c++)
-            {
-                player1.getDeck().add(new Card(c,n));
+        for(int n=1; n<=13; n++) {
+            for (int c = 1; c <= 2; c++) {
+                player1.getDeck().add(new Card(context, c, n));
+                player2.getDeck().add(new Card(context, c, n));
             }
-            for (int value = 0; value <= 10; value++) {
-                for (int copy = 0; copy < 4; copy++) {
-                    deck.add(new Card(copy, value));
-                }
-            }
-
         }
-        Collections.shuffle(deck);
+        Collections.shuffle(player1.getDeck());
+        Collections.shuffle(player2.getDeck());
 
+        this.xmid=(screenW / 2) -150 ;
+        this.ymid=(screenH / 2) -150 ;
         // 2. חישוב מיקומים לפי גודל המסך (screenW, screenH)
-        int cardGap = 160; // המרווח בין קלפים (תלוי ברוחב הקלף שלך)
+        int cardGap = (xmid/2); // המרווח בין קלפים (תלוי ברוחב הקלף שלך)
 
 
         // מיקום התחלתי לשחקן 1 (למעלה)
@@ -87,16 +88,16 @@ Board extends View {
         int y2 = screenH - (screenH / 3);
 
         // 3. חלוקה
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             // שחקן 1
-            Card c1 = deck.remove(0);
+            Card c1 = player1.getDeck().remove(0);
             c1.setX(x1);
             c1.setY(y1);
             //c1.setIsOpen(true);
             player1.AddCard(c1);
 
             // שחקן 2
-            Card c2 = deck.remove(0);
+            Card c2 = player2.getDeck().remove(0);
             c2.setX(x2);
             c2.setY(y2);
             //c2.setIsOpen(true);
@@ -108,12 +109,16 @@ Board extends View {
 
 
         // קלף פתוח במרכז המסך
-        openCard1 = deck.remove(0);
-        openCard2 = deck.remove(0);
-        this.xmid=(screenW / 2) -100 ;
-        this.ymid=(screenH / 2) -150 ;
-        openCard1.setX((screenW / 2) ); // נניח חצי רוחב קלף
-        openCard1.setY(screenH / 2 );
+        openCard1 = player1.getDeck().remove(0);
+        openCard2 = player2.getDeck().remove(0);
+
+        //this.xmid=(screenW / 2) -150 ;
+        //this.ymid=(screenH / 2) -150 ;
+        openCard1.setX(xmid + (xmid/2) ); // נניח חצי רוחב קלף
+        openCard1.setY(ymid);
+
+        openCard2.setX(xmid - (xmid/2) ); // נניח חצי רוחב קלף
+        openCard2.setY(ymid);
         //openCard.setIsOpen(true);
     }
     @Override
@@ -138,8 +143,8 @@ Board extends View {
         if (openCard2 != null) {
             openCard2.Draw(canvas);
         }
-        kupa1=Bitmap.createScaledBitmap(kupa1,200,290,true);
-        kupa2=Bitmap.createScaledBitmap(kupa2,200,290,true);
+        kupa1=Bitmap.createScaledBitmap(kupa1,290,390,true);
+        kupa2=Bitmap.createScaledBitmap(kupa2,290,390,true);
         canvas.drawBitmap(kupa1, xmid-380,ymid-560, null);
         canvas.drawBitmap(kupa2, xmid+380,ymid+560, null);
 

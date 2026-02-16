@@ -20,7 +20,7 @@ public class Player {
         deck=new ArrayList<Card>(); // קופה אישית
         hand=new ArrayList<Card>() ;// קלפים של שחקן
         this.context = context;
-     /*  for (int i = 1; i <= 13; i++) {
+       for (int i = 1; i <= 13; i++) {
             String resourceName = "b" + i;
             int num = context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
             if (num != 0) {
@@ -28,7 +28,7 @@ public class Player {
                 Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), num);
                 if (bitmap != null) {
                     bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
-                    deck.add(new Card(bitmap, i));
+                    deck.add(new Card(context,1,i));
                     }
                 }
             }
@@ -41,7 +41,7 @@ public class Player {
                 Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), num);
                 if (bitmap != null) {
                     bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
-                    deck.add(new Card(bitmap, i));
+                    deck.add(new Card(context,2,i));
                     }
                 }
             }
@@ -50,7 +50,7 @@ public class Player {
         {
             hand.add(deck.remove(0));
 
-        }*/
+        }
     }
 
     public boolean isEmptyDeck()
