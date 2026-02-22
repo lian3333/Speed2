@@ -131,17 +131,17 @@ Board extends View {
         canvas.drawBitmap(boardBitmap,0,0,null);
 
 
-        for (Card c : player1.getHand()) {
-            c.Draw(canvas);
+        for (int i=0; i<player1.getHand().size(); i++) {
+            player1.getHand().get(i).Draw(canvas);
         }
-        for (Card c : player2.getHand()) {
-            c.Draw(canvas);
+        for (int i=0; i<player2.getHand().size(); i++) {
+            player2.getHand().get(i).Draw(canvas);
         }
         if (openCard1 != null) {
             openCard1.Draw(canvas);
         }
         if (openCard2 != null) {
-            openCard2.Draw(canvas);
+           openCard2.Draw(canvas);
         }
         kupa1=Bitmap.createScaledBitmap(kupa1,290,390,true);
         kupa2=Bitmap.createScaledBitmap(kupa2,290,390,true);
@@ -152,56 +152,7 @@ Board extends View {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
-    private Player player1,player2;
-    Card open1,open2;
-
-    private Bitmap boardBitmap;
-    public Board(Context context) {
-        super(context);
-        player1=new Player("Player 1", context);
-        player2=new Player("Player 2", context);
-       //open1=player1.AddCard(player1.getDeck().remove(0));
-       //open2=player2.AddCard(player2.getDeck().remove(0));
-        boardBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.bg);
-
-
-    }
-    @Override
-    protected void onSizeChanged(int w, int h,int oldw, int oldh){
-        super.onSizeChanged(w,h,oldw,oldh);
-        boardBitmap=Bitmap.createScaledBitmap(boardBitmap,w,h,true);
-
-        }
-    }
-    private void dealCards (int screenw,int screenh){
-        player1.getDeck().clear();
-        player2.getDeck().clear();
-        for(int n=1; n<=13; n++){
-            for(int c=1; c<=2; c++)
-            {
-                player1.getDeck().add(new Card(c,n));
-            }
-        }
-
 
 
     }

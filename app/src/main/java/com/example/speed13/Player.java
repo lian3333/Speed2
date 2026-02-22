@@ -12,6 +12,7 @@ public class Player {
     private ArrayList<Card> deck; // קופה אישית
     private ArrayList<Card> hand; // הקלפים הפתוחים
     private Context context;
+    private Bitmap bitmap;
 
 
     public Player(String name, Context context)
@@ -25,9 +26,9 @@ public class Player {
             int num = context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
             if (num != 0) {
                 // Decode the bitmap from the resource
-                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), num);
+                 bitmap = BitmapFactory.decodeResource(context.getResources(), num);
                 if (bitmap != null) {
-                    bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
+                    bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
                     deck.add(new Card(context,1,i));
                     }
                 }
@@ -38,7 +39,7 @@ public class Player {
             int num = context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
             if (num != 0) {
                 // Decode the bitmap from the resource
-                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), num);
+                 bitmap = BitmapFactory.decodeResource(context.getResources(), num);
                 if (bitmap != null) {
                     bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
                     deck.add(new Card(context,2,i));
