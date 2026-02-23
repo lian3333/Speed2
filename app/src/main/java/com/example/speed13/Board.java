@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -25,7 +27,11 @@ Board extends View {
     public GameActivity gameActivity;
     private Bitmap boardBitmap;
     private Context context;
-
+    //חדש23.2
+    private int pic;
+    private String value;
+    private Card selectedPlayerCard = null;
+    private int selectedIndex = -1;
 
 
     // בנאי יחיד - מצוין לשימוש שלך ב-Start Activity
@@ -74,17 +80,17 @@ Board extends View {
         this.xmid=(screenW / 2) -150 ;
         this.ymid=(screenH / 2) -150 ;
         // 2. חישוב מיקומים לפי גודל המסך (screenW, screenH)
-        int cardGap = (xmid/2); // המרווח בין קלפים (תלוי ברוחב הקלף שלך)
+        int cardGap = (xmid/2)+70; // המרווח בין קלפים (תלוי ברוחב הקלף שלך)
 
 
         // מיקום התחלתי לשחקן 1 (למעלה)
-        int x1 = (screenW / 2) - (2 * cardGap)-80;
+        int x1 = (screenW / 2) - (2 * cardGap)+20;
         int y1 = screenH / 5; // 10% מלמעלה
 
 
         // מיקום התחלתי לשחקן 2 (למטה)
         // רבע מלמטה
-        int x2 = (screenW / 2) - (2 * cardGap)-80;
+        int x2 = (screenW / 2) - (2 * cardGap)+20;
         int y2 = screenH - (screenH / 3);
 
         // 3. חלוקה
@@ -93,6 +99,8 @@ Board extends View {
             Card c1 = player1.getDeck().remove(0);
             c1.setX(x1);
             c1.setY(y1);
+
+
             //c1.setIsOpen(true);
             player1.AddCard(c1);
 
@@ -114,10 +122,10 @@ Board extends View {
 
         //this.xmid=(screenW / 2) -150 ;
         //this.ymid=(screenH / 2) -150 ;
-        openCard1.setX(xmid + (xmid/2) ); // נניח חצי רוחב קלף
-        openCard1.setY(ymid);
+        openCard1.setX(xmid + (xmid/2)); // נניח חצי רוחב קלף
+        openCard1.setY(ymid );
 
-        openCard2.setX(xmid - (xmid/2) ); // נניח חצי רוחב קלף
+        openCard2.setX(xmid - (xmid/2)); // נניח חצי רוחב קלף
         openCard2.setY(ymid);
         //openCard.setIsOpen(true);
     }
@@ -143,13 +151,124 @@ Board extends View {
         if (openCard2 != null) {
            openCard2.Draw(canvas);
         }
-        kupa1=Bitmap.createScaledBitmap(kupa1,290,390,true);
-        kupa2=Bitmap.createScaledBitmap(kupa2,290,390,true);
-        canvas.drawBitmap(kupa1, xmid-380,ymid-560, null);
-        canvas.drawBitmap(kupa2, xmid+380,ymid+560, null);
+        kupa1=Bitmap.createScaledBitmap(kupa1,260,380,true);
+        kupa2=Bitmap.createScaledBitmap(kupa2,260,380,true);
+        canvas.drawBitmap(kupa1, 0,0, null);
+        canvas.drawBitmap(kupa2, 830,2020, null);
 
     }
 
+    //חדש23.2
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            float tx = event.getX();
+            float ty = event.getY();
+// בדיקה: האם לחצו על קלף של שחקן 2?
+            for (int i = 0; i < player2.getHand().size(); i++) {
+                Card card = player2.getHand().get(i);
+                if (card.isTouched(tx, ty)) {
+                    selectedPlayerCard = card; // שומרים את הקלף שנבחר
+                    selectedIndex = i;         // שומרים את המיקום שלו ביד
+                    Toast.makeText(context, "נבחר: " + card.toString(), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            }
+
+            // בדיקה: האם לחצו על קלף מרכזי (ורק אם כבר נבחר קלף מהיד קודם)
+            if (selectedPlayerCard != null) {
+                // בדיקה מול קלף מרכז 1
+                if (openCard1.isTouched(tx, ty)) {
+                    checkAndMove(openCard1, 1);
+                    return true;
+                }
+                // בדיקה מול קלף מרכז 2
+                if (openCard2.isTouched(tx, ty)) {
+                    checkAndMove(openCard2, 2);
+                    return true;
+                }
+            }
+            // בדיקה לשחקן 2
+            for (int i = 0; i < player2.getHand().size(); i++) {
+                Card card = player2.getHand().get(i);
+                if (card.isTouched(tx, ty)) {
+                    // הצגת Toast עם שם הקלף
+                    Toast.makeText(context, "שחקן 2: " + card.toString(), Toast.LENGTH_SHORT).show();
+
+                    handleCardClick(card, player2, i);
+                    invalidate();
+                    return true;
+                }
+            }
+
+            // בדיקה לשחקן 1
+            for (int i = 0; i < player1.getHand().size(); i++) {
+                Card card = player1.getHand().get(i);
+                if (card.isTouched(tx, ty)) {
+                    // הצגת Toast עם שם הקלף
+                    Toast.makeText(context, "שחקן 1: " + card.toString(), Toast.LENGTH_SHORT).show();
+
+                    handleCardClick(card, player1, i);
+                    invalidate();
+                    return true;
+                }
+            }
+            // 3. בדיקה לקלף פתוח 1 (במרכז)
+            /*if (openCard1 != null && openCard1.isTouched(tx, ty)) {
+                Toast.makeText(context, "מרכז 1: " + openCard1.toString(), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            // 4. בדיקה לקלף פתוח 2 (במרכז)
+            if (openCard2 != null && openCard2.isTouched(tx, ty)) {
+                Toast.makeText(context, "מרכז 2: " + openCard2.toString(), Toast.LENGTH_SHORT).show();
+                return true;
+            }*/
+        }
+        return super.onTouchEvent(event);
+    }
+
+    private void handleCardClick(Card card, Player player2, int i) {
+    }
+
+    private void checkAndMove(Card centerCard, int centerSlot) {
+        int valHand = selectedPlayerCard.getValue();
+        int valCenter = centerCard.getValue();
+
+        // בדיקת התנאי: הפרש של 1 (כולל טיפול באס ומלך)
+        boolean isValid = (Math.abs(valHand - valCenter) == 1) ||
+                (valHand == 1 && valCenter == 13) ||
+                (valHand == 13 && valCenter == 1);
+
+        if (isValid) {
+            // 1. מעדכנים את המרכז (שומרים על המיקום המקורי של המרכז)
+            int oldX = centerCard.getX();
+            int oldY = centerCard.getY();
+
+            selectedPlayerCard.setX(oldX);
+            selectedPlayerCard.setY(oldY);
+
+            if (centerSlot == 1) openCard1 = selectedPlayerCard;
+            else openCard2 = selectedPlayerCard;
+
+            // 2. מסירים מהיד ושולפים קלף חדש מהקופה
+            player2.getHand().remove(selectedIndex);
+            if (!player2.getDeck().isEmpty()) {
+                Card newCard = player2.getDeck().remove(0);
+                // כאן כדאי לתת ל-newCard את ה-X וה-Y המקוריים של הקלף שיצא מהיד
+                player2.getHand().add(selectedIndex, newCard);
+            }
+
+            Toast.makeText(context, "מהלך מצוין!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "הקלף אינו מתאים", Toast.LENGTH_SHORT).show();
+        }
+
+        // איפוס הבחירה בסוף התהליך
+        selectedPlayerCard = null;
+        selectedIndex = -1;
+        invalidate(); // ציור מחדש של הלוח
+    }
 
 
 /*
