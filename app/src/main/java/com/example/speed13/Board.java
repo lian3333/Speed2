@@ -32,6 +32,7 @@ Board extends View {
     private String value;
     private Card selectedPlayerCard = null;
     private int selectedIndex = -1;
+    private int choose=1;
 
 
     // בנאי יחיד - מצוין לשימוש שלך ב-Start Activity
@@ -66,7 +67,7 @@ Board extends View {
     private void dealCards(int screenW, int screenH) {
         // 1. איפוס ויצירת חפיסה
         //deck.clear();
-        player1.getDeck().clear();
+         player1.getDeck().clear();
         player2.getDeck().clear();
         for(int n=1; n<=13; n++) {
             for (int c = 1; c <= 2; c++) {
@@ -125,14 +126,38 @@ Board extends View {
         openCard1.setX(xmid + (xmid/2)); // נניח חצי רוחב קלף
         openCard1.setY(ymid );
 
-        openCard2.setX(xmid - (xmid/2)); // נניח חצי רוחב קלף
+        openCard2.setX(xmid - (xmid/2)+50); // נניח חצי רוחב קלף
         openCard2.setY(ymid);
         //openCard.setIsOpen(true);
     }
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
-        super.onDraw(canvas);
+
+        //חדש24.2
+        // 1. ציור רקע
+        canvas.drawBitmap(boardBitmap, 0, 0, null);
+
+        // ציור קלפי שחקן 1
+        for (int i = 0; i < player1.getHand().size(); i++) {
+            player1.getHand().get(i).Draw(canvas);
+        }
+
+// ציור קלפי שחקן 2
+        for (int i = 0; i < player2.getHand().size(); i++) {
+            player2.getHand().get(i).Draw(canvas);
+        }
+        // 3. ציור קלפי המרכז
+        if (openCard1 != null) openCard1.Draw(canvas);
+        if (openCard2 != null) openCard2.Draw(canvas);
+
+        // 4. ציור קופות (השתמשי במשתני גובה ורוחב המסך)
+        kupa1=Bitmap.createScaledBitmap(kupa1,260,380,true);
+        kupa2=Bitmap.createScaledBitmap(kupa2,260,380,true);
+        canvas.drawBitmap(kupa1, 20, 20, null); // קופה עליונה
+        canvas.drawBitmap(kupa2, getWidth() - kupa2.getWidth() - 20, getHeight() - kupa2.getHeight() - 20, null);
+
+        /*
         int width = getWidth()*7;
         int height = getHeight();
         Rect dest = new Rect(-100,0,width,height);
@@ -154,7 +179,7 @@ Board extends View {
         kupa1=Bitmap.createScaledBitmap(kupa1,260,380,true);
         kupa2=Bitmap.createScaledBitmap(kupa2,260,380,true);
         canvas.drawBitmap(kupa1, 0,0, null);
-        canvas.drawBitmap(kupa2, 830,2020, null);
+        canvas.drawBitmap(kupa2, 830,2020, null); */
 
     }
 
@@ -231,6 +256,7 @@ Board extends View {
     private void handleCardClick(Card card, Player player2, int i) {
     }
 
+    //חדש24.2
     private void checkAndMove(Card centerCard, int centerSlot) {
         int valHand = selectedPlayerCard.getValue();
         int valCenter = centerCard.getValue();
@@ -244,7 +270,8 @@ Board extends View {
             // 1. מעדכנים את המרכז (שומרים על המיקום המקורי של המרכז)
             int oldX = centerCard.getX();
             int oldY = centerCard.getY();
-
+            int takecardx=selectedPlayerCard.getX();
+            int takecardy=selectedPlayerCard.getY();
             selectedPlayerCard.setX(oldX);
             selectedPlayerCard.setY(oldY);
 
@@ -255,6 +282,8 @@ Board extends View {
             player2.getHand().remove(selectedIndex);
             if (!player2.getDeck().isEmpty()) {
                 Card newCard = player2.getDeck().remove(0);
+                newCard.setX(takecardx);
+                newCard.setY(takecardy);
                 // כאן כדאי לתת ל-newCard את ה-X וה-Y המקוריים של הקלף שיצא מהיד
                 player2.getHand().add(selectedIndex, newCard);
             }
