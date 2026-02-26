@@ -123,10 +123,10 @@ Board extends View {
 
         //this.xmid=(screenW / 2) -150 ;
         //this.ymid=(screenH / 2) -150 ;
-        openCard1.setX(xmid + (xmid/2)); // נניח חצי רוחב קלף
+        openCard1.setX(xmid - (xmid/2)+50); // נניח חצי רוחב קלף
         openCard1.setY(ymid );
 
-        openCard2.setX(xmid - (xmid/2)+50); // נניח חצי רוחב קלף
+        openCard2.setX(xmid + (xmid/2)); // נניח חצי רוחב קלף
         openCard2.setY(ymid);
         //openCard.setIsOpen(true);
     }
@@ -137,6 +137,7 @@ Board extends View {
         //חדש24.2
         // 1. ציור רקע
         canvas.drawBitmap(boardBitmap, 0, 0, null);
+
 
         // ציור קלפי שחקן 1
         for (int i = 0; i < player1.getHand().size(); i++) {
@@ -154,7 +155,10 @@ Board extends View {
         // 4. ציור קופות (השתמשי במשתני גובה ורוחב המסך)
         kupa1=Bitmap.createScaledBitmap(kupa1,260,380,true);
         kupa2=Bitmap.createScaledBitmap(kupa2,260,380,true);
+        //חדש עדכון 26.2
+        if(!(player1.isEmptyDeck()))
         canvas.drawBitmap(kupa1, 20, 20, null); // קופה עליונה
+        if(!(player2.isEmptyDeck()))
         canvas.drawBitmap(kupa2, getWidth() - kupa2.getWidth() - 20, getHeight() - kupa2.getHeight() - 20, null);
 
         /*
@@ -189,6 +193,28 @@ Board extends View {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             float tx = event.getX();
             float ty = event.getY();
+            //חדש 26.2
+                float k2x = event.getX();
+                float k2y = event.getY();
+
+                // הגדרת אזור הלחיצה של קופה 2
+                int k2Width = kupa2.getWidth();
+                int k2Height = kupa2.getHeight();
+                int k2Left = getWidth() - k2Width - 20;
+                int k2Top = getHeight() - k2Height - 20;
+
+                // בדיקה פשוטה ונקייה
+                if (k2x >= k2Left && k2x <= (k2Left + k2Width) &&
+                        k2y >= k2Top && k2y <= (k2Top + k2Height)) {
+
+                    refreshCenterCards();
+                    invalidate(); // מבטיח שהמסך יצטייר מחדש
+                    return true;
+                }
+
+
+
+                //ישן לפני26.2
 // בדיקה: האם לחצו על קלף של שחקן 2?
             for (int i = 0; i < player2.getHand().size(); i++) {
                 Card card = player2.getHand().get(i);
@@ -238,6 +264,10 @@ Board extends View {
                     return true;
                 }
             }
+            
+            //חדש26.2
+
+
             // 3. בדיקה לקלף פתוח 1 (במרכז)
             /*if (openCard1 != null && openCard1.isTouched(tx, ty)) {
                 Toast.makeText(context, "מרכז 1: " + openCard1.toString(), Toast.LENGTH_SHORT).show();
@@ -252,6 +282,9 @@ Board extends View {
         }
         return super.onTouchEvent(event);
     }
+
+
+
 
     private void handleCardClick(Card card, Player player2, int i) {
     }
@@ -297,6 +330,35 @@ Board extends View {
         selectedPlayerCard = null;
         selectedIndex = -1;
         invalidate(); // ציור מחדש של הלוח
+    }
+
+    //חדש26.2
+    private void refreshCenterCards() {
+        // בדיקה שיש קלפים בקופות של שני השחקנים
+        if (!player1.getDeck().isEmpty() && !player2.getDeck().isEmpty()) {
+
+            // 1. שומרים את המיקומים הנוכחיים של קלפי המרכז כדי שהחדשים יהיו בדיוק שם
+            int x1 = openCard1.getX();
+            int y1 = openCard1.getY();
+            int x2 = openCard2.getX();
+            int y2 = openCard2.getY();
+
+            // 2. שולפים קלף חדש מהקופה של כל שחקן ומחליפים את קלפי המרכז
+            openCard1 = player1.getDeck().remove(0);
+            openCard2 = player2.getDeck().remove(0);
+
+            // 3. מעדכנים לקלפים החדשים את המיקום במרכז
+            openCard1.setX(x1);
+            openCard1.setY(y1);
+            openCard2.setX(x2);
+            openCard2.setY(y2);
+
+            // 4. הודעה למשתמש וציור מחדש
+            Toast.makeText(context, "נפתחו קלפים חדשים!", Toast.LENGTH_SHORT).show();
+            invalidate();
+        } else {
+            Toast.makeText(context, "הקופה ריקה!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
