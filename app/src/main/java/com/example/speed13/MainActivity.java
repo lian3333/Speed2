@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 linearLayout.setBackgroundColor(Color.argb(255, 255, 192, 203)); //Alfa Red Green Blue
                 break;
             default:
-                linearLayout.setBackgroundColor(Color.YELLOW);
+                linearLayout.setBackgroundColor(Color.argb(255, 255, 220, 130));
                 break;
         }
     }
