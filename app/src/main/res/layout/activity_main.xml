@@ -12,8 +12,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:text="Speed"
-        android:id="@+id/tv1"
+        android:id="@+id/tvm1"
         android:textSize="50dp"
         android:fontFamily="sans-serif-smallcaps"
         android:textAlignment="center"

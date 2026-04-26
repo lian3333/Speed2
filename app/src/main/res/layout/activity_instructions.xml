@@ -1,13 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Instructions">
+    android:background="#FF8282"
+    android:fillViewport="true">
 
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".Instructions">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Instructions"
+        android:id="@+id/tvi1"
+        android:textSize="50dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_marginTop="60dp"/>
+
+    <TextView
+        android:id="@+id/tvi2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#FFADAD"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="משחק קלפים בין שני משתתפים הבוחן את זריזותם.
+לכל אחד מהמשתתפים חבילת קלפים משלו, ומכל חבילה נפתח קלף אחד למרכז הלוח.
+מטרת השחקנים היא לסיים את חבילת הקלפים שלהם באמצעות הנחתם על הקלפים הפתוחים במרכז השולחן.
+המצב ההתחלתי הוא 26 קלפים לשחקן (שתי סריות 1-13 של קלפים) - 52 קלפים בסך הכל. מתוך כל חבילה, קלף אחד מונח גלוי לשני השחקנים במרכז הלוח, ו4 קלפים נוספים מכל חבילה הפרוסים באופן גלוי לשני השחקנים.
+בניגוד לרוב משחקי הקלפים, כאן אין תורות -  שני השחקנים משחקים בו-זמנית ובשיא המהירות.
+הקלפים אותם יכול להניח השחקן על אחת מהחפיסות שבמרכז השולחן הם 4 הקלפים הגלויים שלו בלבד, הוא עושה זאת בצורה הבאה: במידה וערך (המספר הכתוב על הקלף, נא בין 1-13) הקלף שבידו גדול ב1/קטן ב1 מערך אחד הקלפים שבמרכז השולחן הוא רשאי להניח את הקלף שבידו ( מתוך 4 הקלפים) על הקלף שמרכז השולחן וכך הלאה. שני השחקנים רשאיים להניח את קלפים על כל אחת משתי החפיסות הפתוחות במרכז.
+כאשר שחקן מניח את אחד מהקלפים שלו במרכז, נפתח אוטומטית קלף חדש מהחפיסה האישית שלו, וכך עד שנגמרים לו הקלפים – מצב ניצחון, או עד שהשחקן השני מנצח.
+במצב בו הקלפים בידם של השחקנים אינם רשאיים להיות מונחים על הקלפים במרכז או שהשחקנים אינם רוצים לשים את הקלפים שבידם, שני השחקנים יחליטו לפתוח קלף אחד חדש מכל חבילה אישית, למרכז השולחן.
+"
+        android:textAlignment="center"
+        android:textSize="25dp"
+        android:textStyle="bold" />
 
 
 </LinearLayout>
+</ScrollView>

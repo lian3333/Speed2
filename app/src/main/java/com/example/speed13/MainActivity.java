@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LinearLayout linearLayout = findViewById(R.id.main);
         switch (strColor) {
             case "Red":
-                linearLayout.setBackgroundColor(Color.argb(255, 205, 92, 92));
+                linearLayout.setBackgroundColor(Color.argb(255, 170, 0, 0));
                 break;
 
             case "Blue":
