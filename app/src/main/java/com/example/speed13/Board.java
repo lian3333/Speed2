@@ -38,7 +38,7 @@ Board extends View {
     // בנאי יחיד - מצוין לשימוש שלך ב-Start Activity
     public Board(Context context) {
         super(context);
-        this.context = context;
+        this.context = context;  // context זו הפניה ל GameActivity
         // רק יוצרים את האובייקטים, לא ממקמים אותם עדיין
         //deck = new ArrayList<>();
         player1 = new Player("Player 1", context);
@@ -47,6 +47,8 @@ Board extends View {
         this.kupa1=BitmapFactory.decodeResource(getResources(),R.drawable.backcard);
         this.kupa2=BitmapFactory.decodeResource(getResources(),R.drawable.backcard);
         boardBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.bgspeed);
+
+        FB.getInstance(context).setOpen1(new Card(context,5,7));
 
     }
 
@@ -359,6 +361,11 @@ Board extends View {
         } else {
             Toast.makeText(context, "הקופה ריקה!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void newValFromFbToOpen1(FbCard fbCard) {
+        Toast.makeText(context, "open1", Toast.LENGTH_SHORT).show();
+
     }
 
 

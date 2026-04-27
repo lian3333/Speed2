@@ -11,13 +11,18 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class GameActivity extends AppCompatActivity {
 
+    public Board board;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         //setContentView(R.layout.activity_game);
         //Intent intent=getIntent();
-        Board board = new Board(this);
+        board = new Board(this);
         setContentView(board);
+    }
+
+    public void newValFromFbToOpen1(FbCard fbCard) {
+        board.newValFromFbToOpen1(fbCard);
     }
 }
