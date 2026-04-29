@@ -61,6 +61,10 @@ public class Card extends Location
             return "black";
     }
 
+    public int getIntColor() {
+        return this.color;
+    }
+
 
     public void setIsopen(boolean isopen) {
         this.isopen = isopen;

@@ -49,6 +49,7 @@ Board extends View {
         boardBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.bgspeed);
 
         FB.getInstance(context).setOpen1(new Card(context,5,7));
+        FB.getInstance(context).setDeck1(player1.getDeck());
 
     }
 
@@ -363,9 +364,13 @@ Board extends View {
         }
     }
 
-    public void newValFromFbToOpen1(FbCard fbCard) {
+    public void newValFromFbToOpen1(Card card) {
         Toast.makeText(context, "open1", Toast.LENGTH_SHORT).show();
 
+    }
+
+    public void newValFromFbToOpen2(Card card) {
+        Toast.makeText(context, "open2", Toast.LENGTH_SHORT).show();
     }
 
 
