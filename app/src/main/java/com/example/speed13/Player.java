@@ -54,6 +54,7 @@ public class Player {
         }*/
     }
 
+
     public boolean isEmptyDeck()
     {
         return deck.isEmpty();

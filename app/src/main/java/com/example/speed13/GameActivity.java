@@ -14,14 +14,22 @@ import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
 
+    //public static int player;
     public Board board;
+    //private FB instance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         //setContentView(R.layout.activity_game);
         //Intent intent=getIntent();
+
+
+        //player=getIntent().getIntExtra("player",0);
+        //instance= FB.getInstance(this);
+
         board = new Board(this);
+
         setContentView(board);
     }
 

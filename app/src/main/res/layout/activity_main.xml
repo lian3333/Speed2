@@ -24,7 +24,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Play"
+        android:text="Player1"
         android:textSize="30dp"
         android:fontFamily="serif"
         android:id="@+id/btn1"
@@ -36,7 +36,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Instructions"
+        android:text="Player2"
         android:textSize="30dp"
         android:fontFamily="serif"
         android:id="@+id/btn2"
@@ -48,10 +48,22 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Setting"
+        android:text="Instructions"
         android:textSize="30dp"
         android:fontFamily="serif"
         android:id="@+id/btn3"
+        android:layout_marginTop="30dp"
+        android:textStyle="italic"
+        android:textColor="@color/black"
+        android:backgroundTint="#FFADAD"
+        ></Button>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Setting"
+        android:textSize="30dp"
+        android:fontFamily="serif"
+        android:id="@+id/btn4"
         android:layout_marginTop="30dp"
         android:textStyle="italic"
         android:textColor="@color/black"

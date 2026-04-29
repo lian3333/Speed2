@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn1;
     private Button btn2;
     private Button btn3;
+    private Button btn4;
+
     private ActivityResultLauncher<Intent> activityResultLauncher; //
     private String backgroundColor = ""; // שמירת צבע הרקע
 
@@ -36,10 +38,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn1=findViewById(R.id.btn1);
         btn2=findViewById(R.id.btn2);
         btn3=findViewById(R.id.btn3);
+        btn4=findViewById(R.id.btn4);
 
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
         btn3.setOnClickListener(this);
+        btn4.setOnClickListener(this);
+
 
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -90,15 +95,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        int player;
         if (view==btn1){
+            player=0;
             Intent intent=new Intent(this,GameActivity.class);
+            intent.putExtra("player",player);
             startActivity(intent);
         }
         if (view==btn2){
+            player=1;
+            Intent intent=new Intent(this,GameActivity.class);
+            intent.putExtra("player",player);
+            startActivity(intent);
+        }
+
+        if (view==btn3){
             Intent intentinst=new Intent(this,Instructions.class);
             startActivity(intentinst);
         }
-        if (view==btn3){
+        if (view==btn4){
             Intent intentset=new Intent(this,Setting.class);
             //startActivity(intentset);
             activityResultLauncher.launch(intentset);
