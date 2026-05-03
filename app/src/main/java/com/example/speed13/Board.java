@@ -165,9 +165,9 @@ Board extends View {
         kupa2=Bitmap.createScaledBitmap(kupa2,260,380,true);
         //חדש עדכון 26.2
         if(!(player1.isEmptyDeck()))
-        canvas.drawBitmap(kupa1, 20, 20, null); // קופה עליונה
+            canvas.drawBitmap(kupa1, 20, 20, null); // קופה עליונה
         if(!(player2.isEmptyDeck()))
-        canvas.drawBitmap(kupa2, getWidth() - kupa2.getWidth() - 20, getHeight() - kupa2.getHeight() - 20, null);
+            canvas.drawBitmap(kupa2, getWidth() - kupa2.getWidth() - 20, getHeight() - kupa2.getHeight() - 20, null);
 
         /*
         int width = getWidth()*7;
