@@ -53,8 +53,8 @@ Board extends View {
         FB.getInstance(context).setOpen2(new Card(context,5,7));
         FB.getInstance(context).setDeck1(player1.getDeck());
         FB.getInstance(context).setDeck2(player2.getDeck());
-        FB.getInstance(context).setHand1(player1.getDeck());
-        FB.getInstance(context).setHand2(player2.getDeck());
+        FB.getInstance(context).setHand1(player1.getHand());
+        FB.getInstance(context).setHand2(player2.getHand());
 
     }
 
@@ -75,7 +75,7 @@ Board extends View {
     private void dealCards(int screenW, int screenH) {
         // 1. איפוס ויצירת חפיסה
         //deck.clear();
-         player1.getDeck().clear();
+        player1.getDeck().clear();
         player2.getDeck().clear();
         for(int n=1; n<=13; n++) {
             for (int c = 1; c <= 2; c++) {
