@@ -33,8 +33,7 @@ public class Card extends Location
             int num = context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
 
         this.pic = BitmapFactory.decodeResource(context.getResources(), num);
-/*
-            }*/
+
         }
 
     

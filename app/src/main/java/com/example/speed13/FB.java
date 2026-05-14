@@ -130,12 +130,16 @@ public class FB {
         }
 
         // Write a message to the database
-        DatabaseReference myRef = database.getReference("deck1"); // push adds new node with unique value
+        DatabaseReference myRef = database.getReference("player1/deck1"); // push adds new node with unique value
         myRef.setValue(fbDeck);
     }
 
+
+
+
+
     private void listenerToDeck1() {
-        DatabaseReference myRef = database.getReference("deck1"); // push adds new node with unique value
+        DatabaseReference myRef = database.getReference("player1"); // push adds new node with unique value
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -171,12 +175,12 @@ public class FB {
         }
 
         // Write a message to the database
-        DatabaseReference myRef = database.getReference("deck2"); // push adds new node with unique value
+        DatabaseReference myRef = database.getReference("player2/deck2"); // push adds new node with unique value
         myRef.setValue(fbDeck);
     }
 
     private void listenerToDeck2() {
-        DatabaseReference myRef = database.getReference("deck2"); // push adds new node with unique value
+        DatabaseReference myRef = database.getReference("player2"); // push adds new node with unique value
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -211,12 +215,12 @@ public class FB {
         }
 
         // Write a message to the database
-        DatabaseReference myRef = database.getReference("hand1"); // push adds new node with unique value
+        DatabaseReference myRef = database.getReference("player1/hand1"); // push adds new node with unique value
         myRef.setValue(fbHand);
     }
 
     private void listenerToHand1() {
-        DatabaseReference myRef = database.getReference("hand1"); // push adds new node with unique value
+        DatabaseReference myRef = database.getReference("player1"); // push adds new node with unique value
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -252,12 +256,12 @@ public class FB {
         }
 
         // Write a message to the database
-        DatabaseReference myRef = database.getReference("hand2"); // push adds new node with unique value
+        DatabaseReference myRef = database.getReference("player2/hand2"); // push adds new node with unique value
         myRef.setValue(fbHand);
     }
 
     private void listenerToHand2() {
-        DatabaseReference myRef = database.getReference("hand2"); // push adds new node with unique value
+        DatabaseReference myRef = database.getReference("player2"); // push adds new node with unique value
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

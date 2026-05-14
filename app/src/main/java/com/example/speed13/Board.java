@@ -49,12 +49,7 @@ Board extends View {
         boardBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.bgspeed);
 
 
-        FB.getInstance(context).setOpen1(new Card(context,5,7));
-        FB.getInstance(context).setOpen2(new Card(context,5,7));
-        FB.getInstance(context).setDeck1(player1.getDeck());
-        FB.getInstance(context).setDeck2(player2.getDeck());
-        FB.getInstance(context).setHand1(player1.getHand());
-        FB.getInstance(context).setHand2(player2.getHand());
+
 
     }
 
@@ -68,6 +63,12 @@ Board extends View {
         // נריץ את החלוקה רק פעם אחת כשהמסך מוכן
         if (!isInitialized) {
             dealCards(w, h);
+            FB.getInstance(context).setOpen1(openCard1);
+            FB.getInstance(context).setOpen2(openCard2);
+            FB.getInstance(context).setDeck1(player1.getDeck());
+            FB.getInstance(context).setDeck2(player2.getDeck());
+            FB.getInstance(context).setHand1(player1.getHand());
+            FB.getInstance(context).setHand2(player2.getHand());
             isInitialized = true;
         }
     }
@@ -295,6 +296,7 @@ Board extends View {
 
 
     private void handleCardClick(Card card, Player player2, int i) {
+
     }
 
     //חדש24.2
