@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,10 +35,14 @@ Board extends View {
     private int selectedIndex = -1;
     private int choose=1;
 
+    private int player;
+    private Paint   p;
+
 
     // בנאי יחיד - מצוין לשימוש שלך ב-Start Activity
-    public Board(Context context) {
+    public Board(Context context, int player) {
         super(context);
+        this.player = player;
         this.context = context;  // context זו הפניה ל GameActivity
         // רק יוצרים את האובייקטים, לא ממקמים אותם עדיין
         //deck = new ArrayList<>();
@@ -48,7 +53,9 @@ Board extends View {
         this.kupa2=BitmapFactory.decodeResource(getResources(),R.drawable.backcard);
         boardBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.bgspeed);
 
-
+        p = new Paint();
+        p.setColor(Color.BLACK);
+        p.setTextSize(100);
 
 
     }
@@ -62,13 +69,23 @@ Board extends View {
 
         // נריץ את החלוקה רק פעם אחת כשהמסך מוכן
         if (!isInitialized) {
-            dealCards(w, h);
-            FB.getInstance(context).setOpen1(openCard1);
-            FB.getInstance(context).setOpen2(openCard2);
-            FB.getInstance(context).setDeck1(player1.getDeck());
-            FB.getInstance(context).setDeck2(player2.getDeck());
-            FB.getInstance(context).setHand1(player1.getHand());
-            FB.getInstance(context).setHand2(player2.getHand());
+
+            if(player == 1)
+            {
+                dealCards(w, h);
+                FB.getInstance(context).setOpen1(openCard1);
+                FB.getInstance(context).setOpen2(openCard2);
+                FB.getInstance(context).setDeck1(player1.getDeck());
+                FB.getInstance(context).setDeck2(player2.getDeck());
+                FB.getInstance(context).setHand1(player1.getHand());
+                FB.getInstance(context).setHand2(player2.getHand());
+            }
+            else
+            {
+                dealCards(w, h);
+                FB.getInstance(context);
+            }
+
             isInitialized = true;
         }
     }
@@ -146,6 +163,8 @@ Board extends View {
         //חדש24.2
         // 1. ציור רקע
         canvas.drawBitmap(boardBitmap, 0, 0, null);
+
+        canvas.drawText("Player " + player, canvas.getWidth() - 400, 200, p);
 
 
         // ציור קלפי שחקן 1
@@ -372,12 +391,41 @@ Board extends View {
     }
 
     public void newValFromFbToOpen1(Card card) {
+        openCard1.setNewCard(card.getValue(), card.getIntColor());
+        invalidate();
         Toast.makeText(context, "open1", Toast.LENGTH_SHORT).show();
 
     }
 
     public void newValFromFbToOpen2(Card card) {
+        openCard2.setNewCard(card.getValue(), card.getIntColor());
+
+        invalidate();
         Toast.makeText(context, "open2", Toast.LENGTH_SHORT).show();
+    }
+
+    public void setDeck1(ArrayList<Card> deck) {
+        player1.getDeck().clear();
+        player1.getDeck().addAll(deck);
+        invalidate();
+    }
+
+    public void setDeck2(ArrayList<Card> deck) {
+        player2.getDeck().clear();
+        player2.getDeck().addAll(deck);
+        invalidate();
+    }
+
+    public void setHand1(ArrayList<Card> hand) {
+        player1.getHand().clear();
+        player1.getHand().addAll(hand);
+        invalidate();
+    }
+
+    public void setHand2(ArrayList<Card> hand) {
+        player2.getHand().clear();
+        player2.getHand().addAll(hand);
+        invalidate();
     }
 
 
@@ -400,5 +448,7 @@ Board extends View {
         canvas.drawBitmap(boardBitmap,0,0,null);
 
     }********** */
+
+
 
 }

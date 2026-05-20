@@ -15,11 +15,13 @@ public class Card extends Location
     private int value, color;
     private boolean isopen;
     private Bitmap pic;
+    private Context context;
 
 
     public Card(Context context, int color, int value) {
         super(0, 0);
 
+        this.context = context;
         this.color = color;
         this.isopen = false;
         this.value = value;
@@ -97,5 +99,19 @@ public class Card extends Location
 
 
 
+    public void setNewCard(int value, int color)
+    {
+        this.color=color;
+        this.value=value;
+
+        String resourceName="";
+        if (color==1)
+            resourceName= "r" + value;
+        else
+            resourceName="b"+value;
+        int num = context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
+
+        this.pic = BitmapFactory.decodeResource(context.getResources(), num);
+    }
 
 }

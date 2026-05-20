@@ -28,6 +28,12 @@ public class FB {
         database = FirebaseDatabase.getInstance();
 
         listenerToOpen1();
+        listenerToOpen2();
+        listenerToDeck1();
+        listenerToDeck2();
+        listenerToHand1();
+        listenerToHand2();
+
 
         //this.records = MainActivity.records;
 
@@ -82,9 +88,9 @@ public class FB {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 FbCard fBcard = snapshot.getValue(FbCard.class);
-
-                ((GameActivity)context).newValFromFbToOpen1(fBcard);
-
+                if (fBcard != null) {
+                    ((GameActivity)context).newValFromFbToOpen1(fBcard);
+                }
             }
 
             @Override
@@ -110,9 +116,9 @@ public class FB {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 FbCard fBcard = snapshot.getValue(FbCard.class);
-
-                ((GameActivity)context).newValFromFbToOpen2(fBcard);
-
+                if (fBcard != null) {
+                    ((GameActivity)context).newValFromFbToOpen2(fBcard);
+                }
             }
 
             @Override
@@ -139,12 +145,12 @@ public class FB {
 
 
     private void listenerToDeck1() {
-        DatabaseReference myRef = database.getReference("player1"); // push adds new node with unique value
+        DatabaseReference myRef = database.getReference("player1/deck1");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot != null)
+                if(snapshot.exists())
                 {
                     ArrayList<FbCard> deck = new ArrayList<>();
                     for(DataSnapshot dataSnapshot: snapshot.getChildren())
@@ -180,12 +186,12 @@ public class FB {
     }
 
     private void listenerToDeck2() {
-        DatabaseReference myRef = database.getReference("player2"); // push adds new node with unique value
+        DatabaseReference myRef = database.getReference("player2/deck2");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot != null)
+                if(snapshot.exists())
                 {
                     ArrayList<FbCard> deck = new ArrayList<>();
                     for(DataSnapshot dataSnapshot: snapshot.getChildren())
@@ -220,12 +226,12 @@ public class FB {
     }
 
     private void listenerToHand1() {
-        DatabaseReference myRef = database.getReference("player1"); // push adds new node with unique value
+        DatabaseReference myRef = database.getReference("player1/hand1");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot != null)
+                if(snapshot.exists())
                 {
                     ArrayList<FbCard> hand = new ArrayList<>();
                     for(DataSnapshot dataSnapshot: snapshot.getChildren())
@@ -261,12 +267,12 @@ public class FB {
     }
 
     private void listenerToHand2() {
-        DatabaseReference myRef = database.getReference("player2"); // push adds new node with unique value
+        DatabaseReference myRef = database.getReference("player2/hand2");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot != null)
+                if(snapshot.exists())
                 {
                     ArrayList<FbCard> hand = new ArrayList<>();
                     for(DataSnapshot dataSnapshot: snapshot.getChildren())

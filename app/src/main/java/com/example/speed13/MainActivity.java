@@ -97,13 +97,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int player;
         if (view==btn1){
-            player=0;
+            player=1;
             Intent intent=new Intent(this,GameActivity.class);
             intent.putExtra("player",player);
             startActivity(intent);
         }
         if (view==btn2){
-            player=1;
+            player=2;
             Intent intent=new Intent(this,GameActivity.class);
             intent.putExtra("player",player);
             startActivity(intent);
