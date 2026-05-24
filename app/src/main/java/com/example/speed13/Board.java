@@ -19,12 +19,12 @@ import java.util.Collections;
 public class
 Board extends View {
     //private ArrayList<Card> deck;
-    private Player player1;
-    private Player player2;
-    private Card openCard1, openCard2 ;
+    public static Player player1=new Player();
+    public static Player player2 = new Player();
+    public static Card openCard1, openCard2 ;
     private boolean isInitialized = false;
     private Bitmap kupa1, kupa2;
-    private int xmid,ymid;
+    private int xmid,ymid,w,h,screenW,screenH;
     public GameActivity gameActivity;
     private Bitmap boardBitmap;
     private Context context;
@@ -37,6 +37,7 @@ Board extends View {
 
     private int player;
     private Paint   p;
+    public static boolean gotDecks=false;
 
 
     // בנאי יחיד - מצוין לשימוש שלך ב-Start Activity
@@ -49,6 +50,17 @@ Board extends View {
         player1 = new Player("Player 1", context);
         player2 = new Player("Player 2", context);
 
+        if(player==2){
+            player1.getHand().clear();
+            player1.getDeck().clear();
+            player2.getHand().clear();
+            player2.getDeck().clear();
+        }
+
+
+
+
+
         this.kupa1=BitmapFactory.decodeResource(getResources(),R.drawable.backcard);
         this.kupa2=BitmapFactory.decodeResource(getResources(),R.drawable.backcard);
         boardBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.bgspeed);
@@ -60,12 +72,15 @@ Board extends View {
 
     }
 
+
     // הפונקציה הזו רצה אוטומטית כשהמסך נטען ויודעים את הגודל שלו
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
         boardBitmap = Bitmap.createScaledBitmap(boardBitmap, w, h, true);//התאמת גודל התמונה לגודל המסך
+        this.h=h;
+        this.w=w;
 
         // נריץ את החלוקה רק פעם אחת כשהמסך מוכן
         if (!isInitialized) {
@@ -82,8 +97,23 @@ Board extends View {
             }
             else
             {
-                dealCards(w, h);
+                // שחקן 2 לא מחלק את הקלפים, אבל הוא חייב ליצור את אובייקטי הקלפים הפתוחים
+                // ולתת להם מיקום התחלתי כדי ש-Firebase יוכל לעדכן אותם מאוחר יותר.
+
+                this.xmid = (w / 2) - 150;
+                this.ymid = (h / 2) - 150;
+
+                // יצירת קלפים זמניים (הערך שלהם ישתנה ברגע שיגיע המידע מ-Firebase)
+                openCard1 = new Card(context, 1, 1);
+                openCard1.setX(xmid - (xmid / 2) + 50);
+                openCard1.setY(ymid);
+
+                openCard2 = new Card(context, 1, 1);
+                openCard2.setX(xmid + (xmid / 2));
+                openCard2.setY(ymid);
+                //dealCards(w, h);
                 FB.getInstance(context);
+
             }
 
             isInitialized = true;
@@ -93,6 +123,8 @@ Board extends View {
     private void dealCards(int screenW, int screenH) {
         // 1. איפוס ויצירת חפיסה
         //deck.clear();
+        this.screenW=screenW;
+        this.screenH=screenH;
         player1.getDeck().clear();
         player2.getDeck().clear();
         for(int n=1; n<=13; n++) {
@@ -160,6 +192,8 @@ Board extends View {
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
 
+        if(!gotDecks&&player==2)
+            return;
         //חדש24.2
         // 1. ציור רקע
         canvas.drawBitmap(boardBitmap, 0, 0, null);
@@ -188,7 +222,6 @@ Board extends View {
             canvas.drawBitmap(kupa1, 20, 20, null); // קופה עליונה
         if(!(player2.isEmptyDeck()))
             canvas.drawBitmap(kupa2, getWidth() - kupa2.getWidth() - 20, getHeight() - kupa2.getHeight() - 20, null);
-
         /*
         int width = getWidth()*7;
         int height = getHeight();
@@ -416,17 +449,19 @@ Board extends View {
         invalidate();
     }
 
-    public void setHand1(ArrayList<Card> hand) {
+   /* public void setHand1(ArrayList<Card> hand) {
         player1.getHand().clear();
         player1.getHand().addAll(hand);
         invalidate();
-    }
+    }*/
 
-    public void setHand2(ArrayList<Card> hand) {
+    /*public void setHand2(ArrayList<Card> hand) {
         player2.getHand().clear();
         player2.getHand().addAll(hand);
         invalidate();
-    }
+    }*/
+
+
 
 
 
@@ -450,5 +485,63 @@ Board extends View {
     }********** */
 
 
+    public void newValFromFbToHand1(ArrayList<FbCard> fbHand) {
+        ArrayList<Card> hand = new ArrayList<>();
+        for (int i = 0; i < fbHand.size(); i++) {
+            Card card = new Card(context, fbHand.get(i).getColor(), fbHand.get(i).getValue());
+            player1.getHand().add(card);
+        }
+        this.xmid=(screenW / 2) -150 ;
+        this.ymid=(screenH / 2) -150 ;
+        // 2. חישוב מיקומים לפי גודל המסך (screenW, screenH)
+        int cardGap = (xmid/2)+70; // המרווח בין קלפים (תלוי ברוחב הקלף שלך)
+        // מיקום התחלתי לשחקן 1 (למעלה)
+        int x1 = (screenW / 2) - (2 * cardGap)+20;
+        int y1 = screenH / 5; // 10% מלמעלה
+        // מיקום התחלתי לשחקן 2 (למטה)
+        // רבע מלמטה
+        int x2 = (screenW / 2) - (2 * cardGap)+20;
+        int y2 = screenH - (screenH / 3);
+        // 3. חלוקה
+        for (int i = 0; i < 4; i++) {
+
+            player1.getHand().get(i).setX(x2);
+            player1.getHand().get(i).setY(y2);
+
+            x1 += cardGap;
+            x2 += cardGap;
+        }
+        // קלף פתוח במרכז המסך
+
+    }
+
+    public void newValFromFbToHand2(ArrayList<FbCard> fbHand) {
+        ArrayList<Card> hand = new ArrayList<>();
+        for (int i = 0; i < fbHand.size(); i++) {
+            Card card = new Card(context, fbHand.get(i).getColor(), fbHand.get(i).getValue());
+            player2.getHand().add(card);
+        }
+        this.xmid=(screenW / 2) -150 ;
+        this.ymid=(screenH / 2) -150 ;
+        // 2. חישוב מיקומים לפי גודל המסך (screenW, screenH)
+        int cardGap = (xmid/2)+70; // המרווח בין קלפים (תלוי ברוחב הקלף שלך)
+        // מיקום התחלתי לשחקן 1 (למעלה)
+        int x1 = (screenW / 2) - (2 * cardGap)+20;
+        int y1 = screenH / 5; // 10% מלמעלה
+        // מיקום התחלתי לשחקן 2 (למטה)
+        // רבע מלמטה
+        int x2 = (screenW / 2) - (2 * cardGap)+20;
+        int y2 = screenH - (screenH / 3);
+        // 3. חלוקה
+        for (int i = 0; i < 4; i++) {
+
+            player2.getHand().get(i).setX(x2);
+            player2.getHand().get(i).setY(y2);
+
+            x1 += cardGap;
+            x2 += cardGap;
+        }
+
+    }
 
 }

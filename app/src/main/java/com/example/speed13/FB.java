@@ -281,6 +281,7 @@ public class FB {
                         hand.add(fBcard);
                     }
                     ((GameActivity)context).newValFromFbToHand2(hand);
+                    Board.gotDecks=true;
                 }
 
 

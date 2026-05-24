@@ -9,12 +9,13 @@ import java.util.ArrayList;
 
 public class Player {
     private String name;
-    private ArrayList<Card> deck; // קופה אישית
-    private ArrayList<Card> hand; // הקלפים הפתוחים
+    private ArrayList<Card> deck=new ArrayList<Card>() ; // קופה אישית
+    private ArrayList<Card> hand=new ArrayList<Card>() ; // הקלפים הפתוחים
     private Context context;
     private Bitmap bitmap;
+    public Player(){
 
-
+    }
     public Player(String name, Context context)
     {
         this.name=name;
@@ -71,6 +72,15 @@ public class Player {
     public ArrayList<Card> getHand() {
         return hand;
     }
+
+    public void setDeck(ArrayList<Card> deck) {
+        this.deck = deck;
+    }
+
+    public void setHand(ArrayList<Card> hand) {
+        this.hand = hand;
+    }
+
     public String getName(){return name;}
     /*public  void Draw(Canvas canvas)
 {
