@@ -55,6 +55,14 @@ public class Player {
         }*/
     }
 
+    public void clearDeck1()
+    {
+        deck.clear();
+    }
+    public void clearDeck2()
+    {
+        deck.clear();
+    }
     public void clearHand1()
     {
         hand.clear();

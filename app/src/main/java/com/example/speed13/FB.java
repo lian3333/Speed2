@@ -130,13 +130,15 @@ public class FB {
 
     public void setDeck1(ArrayList<Card> deck)
     {
+        DatabaseReference myRef = database.getReference("player1/deck1"); // push adds new node with unique value
+        myRef.setValue(null);
         ArrayList<FbCard> fbDeck = new ArrayList<>();
         for (int i = 0; i < deck.size(); i++) {
             fbDeck.add(new FbCard(deck.get(i).getValue(),deck.get(i).getIntColor()));
         }
 
         // Write a message to the database
-        DatabaseReference myRef = database.getReference("player1/deck1"); // push adds new node with unique value
+        //DatabaseReference myRef = database.getReference("player1/deck1"); // push adds new node with unique value
         myRef.setValue(fbDeck);
     }
 
@@ -175,13 +177,15 @@ public class FB {
 
     public void setDeck2(ArrayList<Card> deck)
     {
+        DatabaseReference myRef = database.getReference("player2/deck2"); // push adds new node with unique value
+        myRef.setValue(null);
         ArrayList<FbCard> fbDeck = new ArrayList<>();
         for (int i = 0; i < deck.size(); i++) {
             fbDeck.add(new FbCard(deck.get(i).getValue(),deck.get(i).getIntColor()));
         }
 
         // Write a message to the database
-        DatabaseReference myRef = database.getReference("player2/deck2"); // push adds new node with unique value
+        //DatabaseReference myRef = database.getReference("player1/deck1"); // push adds new node with unique value
         myRef.setValue(fbDeck);
     }
 

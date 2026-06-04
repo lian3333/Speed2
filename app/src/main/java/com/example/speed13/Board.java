@@ -33,7 +33,7 @@ Board extends View {
     private String value;
     private Card selectedPlayerCard = null;
     private int selectedIndex = -1;
-    private int choose=1;
+    private int choose=0;
 
     private int player;
     private Paint   p;
@@ -277,7 +277,16 @@ Board extends View {
                 }
 
 
-
+            for (int i = 0; i < player1.getHand().size(); i++) {
+                Card card = player1.getHand().get(i);
+                if (card.isTouched(tx, ty)) {
+                    selectedPlayerCard = card; // שומרים את הקלף שנבחר
+                    selectedIndex = i;         // שומרים את המיקום שלו ביד
+                    Toast.makeText(context, "נבחר: " + card.toString(), Toast.LENGTH_SHORT).show();
+                    choose=1;
+                    return true;
+                }
+            }
                 //ישן לפני26.2
 // בדיקה: האם לחצו על קלף של שחקן 2?
             for (int i = 0; i < player2.getHand().size(); i++) {
@@ -286,6 +295,7 @@ Board extends View {
                     selectedPlayerCard = card; // שומרים את הקלף שנבחר
                     selectedIndex = i;         // שומרים את המיקום שלו ביד
                     Toast.makeText(context, "נבחר: " + card.toString(), Toast.LENGTH_SHORT).show();
+                    choose=2;
                     return true;
                 }
             }
@@ -373,9 +383,38 @@ Board extends View {
             selectedPlayerCard.setX(oldX);
             selectedPlayerCard.setY(oldY);
 
-            if (centerSlot == 1) openCard1 = selectedPlayerCard;
-            else openCard2 = selectedPlayerCard;
+            if (centerSlot == 1)
+            {
+                openCard1 = selectedPlayerCard;
+                FB.getInstance(context).setOpen1(openCard1);
+            }
+            else
+            {
+                openCard2 = selectedPlayerCard;
+                FB.getInstance(context).setOpen1(openCard2);
+            }
 
+            if(choose==1) {
+                choose = 0;
+                // 2. מסירים מהיד ושולפים קלף חדש מהקופה
+                player1.getHand().remove(selectedIndex);
+                if (!player1.getDeck().isEmpty()) {
+                    Card newCard = player1.getDeck().remove(0);
+                    newCard.setX(takecardx);
+                    newCard.setY(takecardy);
+                    // כאן כדאי לתת ל-newCard את ה-X וה-Y המקוריים של הקלף שיצא מהיד
+                    player1.getHand().add(selectedIndex, newCard);
+                }
+                FB.getInstance(context).setHand1(player1.getHand());
+                FB.getInstance(context).setDeck1(player1.getDeck());
+
+                Toast.makeText(context, "מהלך מצוין!", Toast.LENGTH_SHORT).show();
+             /*else
+                {Toast.makeText(context, "הקלף אינו מתאים", Toast.LENGTH_SHORT).show();}*/
+            }
+
+            if(choose==2){
+                choose=0;
             // 2. מסירים מהיד ושולפים קלף חדש מהקופה
             player2.getHand().remove(selectedIndex);
             if (!player2.getDeck().isEmpty()) {
@@ -385,12 +424,15 @@ Board extends View {
                 // כאן כדאי לתת ל-newCard את ה-X וה-Y המקוריים של הקלף שיצא מהיד
                 player2.getHand().add(selectedIndex, newCard);
             }
+            FB.getInstance(context).setHand2(player2.getHand());
+            FB.getInstance(context).setDeck2(player2.getDeck());
 
             Toast.makeText(context, "מהלך מצוין!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "הקלף אינו מתאים", Toast.LENGTH_SHORT).show();
-        }
 
+            /*else
+            {Toast.makeText(context, "הקלף אינו מתאים", Toast.LENGTH_SHORT).show();}*/
+            }
+        }
         // איפוס הבחירה בסוף התהליך
         selectedPlayerCard = null;
         selectedIndex = -1;
@@ -440,29 +482,31 @@ Board extends View {
         Toast.makeText(context, "open2", Toast.LENGTH_SHORT).show();
     }
 
-    public void setDeck1(ArrayList<Card> deck) {
-        player1.getDeck().clear();
-        player1.getDeck().addAll(deck);
-        invalidate();
-    }
 
     public void clearPlayer1Hand1()
     {
         player1.clearHand1();
     }
-    public void clearPlayer1Hand2()
-    {
-        player1.clearHand2();
-    }
-    public void clearPlayer2Hand1()
-    {
-        player2.clearHand1();
-    }
+
     public void clearPlayer2Hand2()
     {
         player2.clearHand2();
     }
+    public void clearPlayer1Deck1()
+    {
+        player1.clearDeck1();
+    }
+    public void clearPlayer2Deck2()
+    {
+        player2.clearDeck2();
+    }
+    public void setDeck1(ArrayList<Card> deck) {
+        player1.getDeck().clear();
+        player1.getDeck().addAll(deck);
+        invalidate();
+    }
     public void setDeck2(ArrayList<Card> deck) {
+
         player2.getDeck().clear();
         player2.getDeck().addAll(deck);
         invalidate();
