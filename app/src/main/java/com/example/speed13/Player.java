@@ -55,6 +55,15 @@ public class Player {
         }*/
     }
 
+    public void clearHand1()
+    {
+        hand.clear();
+    }
+    public void clearHand2()
+    {
+        hand.clear();
+    }
+
 
     public boolean isEmptyDeck()
     {

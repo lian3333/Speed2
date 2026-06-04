@@ -81,6 +81,8 @@ Board extends View {
         boardBitmap = Bitmap.createScaledBitmap(boardBitmap, w, h, true);//התאמת גודל התמונה לגודל המסך
         this.h=h;
         this.w=w;
+        this.screenW=w;
+        this.screenH=h;
 
         // נריץ את החלוקה רק פעם אחת כשהמסך מוכן
         if (!isInitialized) {
@@ -97,6 +99,7 @@ Board extends View {
             }
             else
             {
+                // Player2
                 // שחקן 2 לא מחלק את הקלפים, אבל הוא חייב ליצור את אובייקטי הקלפים הפתוחים
                 // ולתת להם מיקום התחלתי כדי ש-Firebase יוכל לעדכן אותם מאוחר יותר.
 
@@ -443,6 +446,22 @@ Board extends View {
         invalidate();
     }
 
+    public void clearPlayer1Hand1()
+    {
+        player1.clearHand1();
+    }
+    public void clearPlayer1Hand2()
+    {
+        player1.clearHand2();
+    }
+    public void clearPlayer2Hand1()
+    {
+        player2.clearHand1();
+    }
+    public void clearPlayer2Hand2()
+    {
+        player2.clearHand2();
+    }
     public void setDeck2(ArrayList<Card> deck) {
         player2.getDeck().clear();
         player2.getDeck().addAll(deck);
@@ -486,11 +505,18 @@ Board extends View {
 
 
     public void newValFromFbToHand1(ArrayList<FbCard> fbHand) {
-        ArrayList<Card> hand = new ArrayList<>();
+        //ArrayList<Card> hand = new ArrayList<>();
+        clearPlayer1Hand1();
+        //clearPlayer2Hand1();
+
         for (int i = 0; i < fbHand.size(); i++) {
             Card card = new Card(context, fbHand.get(i).getColor(), fbHand.get(i).getValue());
             player1.getHand().add(card);
         }
+/*        for (int i = 0; i < fbHand.size(); i++) {
+            Card card = new Card(context, fbHand.get(i).getColor(), fbHand.get(i).getValue());
+            player2.getHand().add(card);
+        }*/
         this.xmid=(screenW / 2) -150 ;
         this.ymid=(screenH / 2) -150 ;
         // 2. חישוב מיקומים לפי גודל המסך (screenW, screenH)
@@ -505,8 +531,11 @@ Board extends View {
         // 3. חלוקה
         for (int i = 0; i < 4; i++) {
 
-            player1.getHand().get(i).setX(x2);
-            player1.getHand().get(i).setY(y2);
+            player1.getHand().get(i).setX(x1);
+            player1.getHand().get(i).setY(y1);
+
+/*            player2.getHand().get(i).setX(x2);
+            player2.getHand().get(i).setY(y2);*/
 
             x1 += cardGap;
             x2 += cardGap;
@@ -516,7 +545,13 @@ Board extends View {
     }
 
     public void newValFromFbToHand2(ArrayList<FbCard> fbHand) {
-        ArrayList<Card> hand = new ArrayList<>();
+        //ArrayList<Card> hand = new ArrayList<>();
+        //clearPlayer1Hand2();
+        clearPlayer2Hand2();
+/*        for (int i = 0; i < fbHand.size(); i++) {
+            Card card = new Card(context, fbHand.get(i).getColor(), fbHand.get(i).getValue());
+            player1.getHand().add(card);
+        }*/
         for (int i = 0; i < fbHand.size(); i++) {
             Card card = new Card(context, fbHand.get(i).getColor(), fbHand.get(i).getValue());
             player2.getHand().add(card);
@@ -534,6 +569,9 @@ Board extends View {
         int y2 = screenH - (screenH / 3);
         // 3. חלוקה
         for (int i = 0; i < 4; i++) {
+
+/*            player1.getHand().get(i).setX(x1);
+            player1.getHand().get(i).setY(y1);*/
 
             player2.getHand().get(i).setX(x2);
             player2.getHand().get(i).setY(y2);
