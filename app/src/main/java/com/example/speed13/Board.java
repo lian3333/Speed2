@@ -38,6 +38,7 @@ Board extends View {
     private int player;
     private Paint   p;
     public static boolean gotDecks=false;
+    private boolean isUpdatingFromFirebase = false;
 
 
     // בנאי יחיד - מצוין לשימוש שלך ב-Start Activity
@@ -391,7 +392,7 @@ Board extends View {
             else
             {
                 openCard2 = selectedPlayerCard;
-                FB.getInstance(context).setOpen1(openCard2);
+                FB.getInstance(context).setOpen2(openCard2);
             }
 
             if(choose==1) {
@@ -469,16 +470,19 @@ Board extends View {
     }
 
     public void newValFromFbToOpen1(Card card) {
+        isUpdatingFromFirebase = true; // התחלת עדכון
         openCard1.setNewCard(card.getValue(), card.getIntColor());
         invalidate();
+        isUpdatingFromFirebase = false; // סיום עדכון
         Toast.makeText(context, "open1", Toast.LENGTH_SHORT).show();
 
     }
 
     public void newValFromFbToOpen2(Card card) {
+        isUpdatingFromFirebase = true; // התחלת עדכון
         openCard2.setNewCard(card.getValue(), card.getIntColor());
-
         invalidate();
+        isUpdatingFromFirebase = false; // סיום עדכון
         Toast.makeText(context, "open2", Toast.LENGTH_SHORT).show();
     }
 
@@ -500,16 +504,27 @@ Board extends View {
     {
         player2.clearDeck2();
     }
-    public void setDeck1(ArrayList<Card> deck) {
+    public void newValFromFbToDeck1(ArrayList<Card> deck) {
         player1.getDeck().clear();
         player1.getDeck().addAll(deck);
         invalidate();
+      /*
+       //ArrayList<FbCard> fbDeck
+       clearPlayer1Deck1();
+        for (int i = 0; i < fbDeck.size(); i++) {
+            Card card = new Card(context, fbDeck.get(i).getColor(), fbDeck.get(i).getValue());
+            player1.getDeck().add(card);
+        }
+        invalidate(); */
     }
-    public void setDeck2(ArrayList<Card> deck) {
+    public void newValFromFbToDeck2(ArrayList<Card> deck) {
+
 
         player2.getDeck().clear();
         player2.getDeck().addAll(deck);
         invalidate();
+
+
     }
 
    /* public void setHand1(ArrayList<Card> hand) {
@@ -570,8 +585,8 @@ Board extends View {
         int y1 = screenH / 5; // 10% מלמעלה
         // מיקום התחלתי לשחקן 2 (למטה)
         // רבע מלמטה
-        int x2 = (screenW / 2) - (2 * cardGap)+20;
-        int y2 = screenH - (screenH / 3);
+      /*  int x2 = (screenW / 2) - (2 * cardGap)+20;
+        int y2 = screenH - (screenH / 3);*/
         // 3. חלוקה
         for (int i = 0; i < 4; i++) {
 
@@ -582,7 +597,7 @@ Board extends View {
             player2.getHand().get(i).setY(y2);*/
 
             x1 += cardGap;
-            x2 += cardGap;
+           // x2 += cardGap;
         }
         // קלף פתוח במרכז המסך
 
@@ -605,8 +620,8 @@ Board extends View {
         // 2. חישוב מיקומים לפי גודל המסך (screenW, screenH)
         int cardGap = (xmid/2)+70; // המרווח בין קלפים (תלוי ברוחב הקלף שלך)
         // מיקום התחלתי לשחקן 1 (למעלה)
-        int x1 = (screenW / 2) - (2 * cardGap)+20;
-        int y1 = screenH / 5; // 10% מלמעלה
+        /*int x1 = (screenW / 2) - (2 * cardGap)+20;
+        int y1 = screenH / 5; // 10% מלמעלה*/
         // מיקום התחלתי לשחקן 2 (למטה)
         // רבע מלמטה
         int x2 = (screenW / 2) - (2 * cardGap)+20;
@@ -620,7 +635,7 @@ Board extends View {
             player2.getHand().get(i).setX(x2);
             player2.getHand().get(i).setY(y2);
 
-            x1 += cardGap;
+            //x1 += cardGap;
             x2 += cardGap;
         }
 

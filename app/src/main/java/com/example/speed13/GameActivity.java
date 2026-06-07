@@ -47,6 +47,8 @@ public class GameActivity extends AppCompatActivity {
 
     public void newValFromFbToDeck1(ArrayList<FbCard> fbDeck)
     {
+        board.clearPlayer1Deck1();
+        //board.newValFromFbToDeck1(fbDeck);
         //ArrayList<Card> deck = new ArrayList<>();
         for (int i = 0; i < fbDeck.size(); i++) {
             Card card = new Card(this, fbDeck.get(i).getColor(), fbDeck.get(i).getValue());
@@ -57,13 +59,19 @@ public class GameActivity extends AppCompatActivity {
     }
     public void newValFromFbToDeck2(ArrayList<FbCard> fbDeck)
     {
+        board.clearPlayer2Deck2();
+       // board.newValFromFbToDeck2(fbDeck);
+
+        //board.newValFromFbToHand1(fbDeck);
         ArrayList<Card> deck = new ArrayList<>();
-        for (int i = 0; i < fbDeck.size(); i++) {
+      for (int i = 0; i < fbDeck.size(); i++) {
             Card card = new Card(this, fbDeck.get(i).getColor(), fbDeck.get(i).getValue());
             board.player2.getDeck().add(card);
         }
         //board.setDeck2(deck);
         Toast.makeText(this, "new Deck2", Toast.LENGTH_SHORT).show();
+
+
     }
 
 

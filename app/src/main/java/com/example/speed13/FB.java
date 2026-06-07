@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -143,6 +144,26 @@ public class FB {
     }
 
 
+   /* public void setDeck1(ArrayList<Card> deck) {
+        DatabaseReference myRef = database.getReference("player1/deck1");
+
+        // 1. Prepare the new deck data first
+        ArrayList<FbCard> fbDeck = new ArrayList<>();
+        for (int i = 0; i < deck.size(); i++) {
+            fbDeck.add(new FbCard(deck.get(i).getValue(), deck.get(i).getIntColor()));
+        }
+
+        // 2. Delete the old deck by setting it to null
+        myRef.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // 3. This code ONLY runs after the delete is successful.
+                // Now it is safe to write the new deck.
+                myRef.setValue(fbDeck);
+            }
+        });
+    }
+*/
 
 
 
@@ -188,6 +209,25 @@ public class FB {
         //DatabaseReference myRef = database.getReference("player1/deck1"); // push adds new node with unique value
         myRef.setValue(fbDeck);
     }
+   /* public void setDeck2(ArrayList<Card> deck) {
+        DatabaseReference myRef = database.getReference("player1/deck1");
+
+        // 1. Prepare the new deck data first
+        ArrayList<FbCard> fbDeck = new ArrayList<>();
+        for (int i = 0; i < deck.size(); i++) {
+            fbDeck.add(new FbCard(deck.get(i).getValue(), deck.get(i).getIntColor()));
+        }
+
+        // 2. Delete the old deck by setting it to null
+        myRef.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // 3. This code ONLY runs after the delete is successful.
+                // Now it is safe to write the new deck.
+                myRef.setValue(fbDeck);
+            }
+        });
+    }*/
 
     private void listenerToDeck2() {
         DatabaseReference myRef = database.getReference("player2/deck2");
