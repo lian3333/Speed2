@@ -461,6 +461,8 @@ Board extends View {
             openCard2.setX(x2);
             openCard2.setY(y2);
 
+
+
             // 4. הודעה למשתמש וציור מחדש
             Toast.makeText(context, "נפתחו קלפים חדשים!", Toast.LENGTH_SHORT).show();
             invalidate();
@@ -470,19 +472,19 @@ Board extends View {
     }
 
     public void newValFromFbToOpen1(Card card) {
-        isUpdatingFromFirebase = true; // התחלת עדכון
+        //isUpdatingFromFirebase = true; // התחלת עדכון
         openCard1.setNewCard(card.getValue(), card.getIntColor());
         invalidate();
-        isUpdatingFromFirebase = false; // סיום עדכון
+        //isUpdatingFromFirebase = false; // סיום עדכון
         Toast.makeText(context, "open1", Toast.LENGTH_SHORT).show();
 
     }
 
     public void newValFromFbToOpen2(Card card) {
-        isUpdatingFromFirebase = true; // התחלת עדכון
+        //isUpdatingFromFirebase = true; // התחלת עדכון
         openCard2.setNewCard(card.getValue(), card.getIntColor());
         invalidate();
-        isUpdatingFromFirebase = false; // סיום עדכון
+        //isUpdatingFromFirebase = false; // סיום עדכון
         Toast.makeText(context, "open2", Toast.LENGTH_SHORT).show();
     }
 
@@ -600,7 +602,7 @@ Board extends View {
            // x2 += cardGap;
         }
         // קלף פתוח במרכז המסך
-
+invalidate();
     }
 
     public void newValFromFbToHand2(ArrayList<FbCard> fbHand) {
@@ -638,7 +640,9 @@ Board extends View {
             //x1 += cardGap;
             x2 += cardGap;
         }
-
+invalidate();
     }
+
+
 
 }
