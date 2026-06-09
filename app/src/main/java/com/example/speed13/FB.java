@@ -34,6 +34,7 @@ public class FB {
         listenerToDeck2();
         listenerToHand1();
         listenerToHand2();
+        listenerToWin();
 
 
         //this.records = MainActivity.records;
@@ -339,4 +340,33 @@ public class FB {
             }
         });
     }
+
+    private void listenerToWin() {
+        DatabaseReference myRef = database.getReference("win"); // push adds new node with unique value
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null) {
+                    // מתייחסים לערך כמספר, ומושכים ממנו את ה-int
+                    int win = ((Number) snapshot.getValue()).intValue();
+                    ((GameActivity) context).EndGame(win);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void setWin(int x)
+    {
+        // Write a message to the database
+        DatabaseReference myRef = database.getReference("win"); // push adds new node with unique value
+        int win=x;
+
+        myRef.setValue(win);
+    }
+
 }

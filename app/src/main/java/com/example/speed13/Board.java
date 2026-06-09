@@ -1,6 +1,7 @@
 package com.example.speed13;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -438,6 +439,8 @@ Board extends View {
         selectedPlayerCard = null;
         selectedIndex = -1;
         invalidate(); // ציור מחדש של הלוח
+
+        CheckWin();
     }
 
     //חדש26.2
@@ -453,21 +456,31 @@ Board extends View {
 
             // 2. שולפים קלף חדש מהקופה של כל שחקן ומחליפים את קלפי המרכז
             openCard1 = player1.getDeck().remove(0);
+
             openCard2 = player2.getDeck().remove(0);
+
 
             // 3. מעדכנים לקלפים החדשים את המיקום במרכז
             openCard1.setX(x1);
             openCard1.setY(y1);
             openCard2.setX(x2);
             openCard2.setY(y2);
-
+            FB.getInstance(context).setOpen1(openCard1);
+            FB.getInstance(context).setOpen2(openCard2);
+            FB.getInstance(context).setDeck1(player1.getDeck());
+            FB.getInstance(context).setDeck2(player2.getDeck());
 
 
             // 4. הודעה למשתמש וציור מחדש
             Toast.makeText(context, "נפתחו קלפים חדשים!", Toast.LENGTH_SHORT).show();
+
             invalidate();
+
+            CheckWin();
+
         } else {
             Toast.makeText(context, "הקופה ריקה!", Toast.LENGTH_SHORT).show();
+            CheckWin();
         }
     }
 
@@ -477,6 +490,8 @@ Board extends View {
         invalidate();
         //isUpdatingFromFirebase = false; // סיום עדכון
         Toast.makeText(context, "open1", Toast.LENGTH_SHORT).show();
+
+
 
     }
 
@@ -642,7 +657,37 @@ invalidate();
         }
 invalidate();
     }
+public int isWin(){
+
+        if(player1.getDeck().size()==0&&player2.getDeck().size()==0){
+            return 3;
+        }
+        if(player1.getDeck().size()==0){
+            return 1;
+        }
+        if(player2.getDeck().size()==0){
+            return 2;
+        }
+        return 0;
+    }
 
 
+    public void CheckWin() {
+        int x=isWin();
+        if(x>0){
+            FB.getInstance(context).setWin(x);
+            Intent intent = new Intent(getContext(), Finish.class);
+            intent.putExtra("x",x);
+            getContext().startActivity(intent);
 
+        }
+
+    }
+
+    public void EndGame(int win) {
+        int x=win;
+        Intent intent = new Intent(getContext(), Finish.class);
+        intent.putExtra("x",x);
+        getContext().startActivity(intent);
+    }
 }
