@@ -369,4 +369,18 @@ public class FB {
         myRef.setValue(win);
     }
 
+    public void FbClear(){
+        DatabaseReference myRef = database.getReference("open1"); // push adds new Arrylist with unique value
+        myRef.removeValue();
+        DatabaseReference myRef2 = database.getReference("open2"); // push adds new Arrylist with unique value
+        myRef2.removeValue();
+        DatabaseReference myRef3 = database.getReference("player1"); // push adds new Arrylist with unique value
+        myRef3.removeValue();
+        DatabaseReference myRef4 = database.getReference("player2"); // push adds new Arrylist with unique value
+        myRef4.removeValue();
+        DatabaseReference myRef5 = database.getReference("win"); // push adds new Arrylist with unique value
+        myRef5.removeValue();
+
+    }
+
 }

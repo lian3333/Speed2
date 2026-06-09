@@ -63,6 +63,7 @@ Board extends View {
 
 
 
+
         this.kupa1=BitmapFactory.decodeResource(getResources(),R.drawable.backcard);
         this.kupa2=BitmapFactory.decodeResource(getResources(),R.drawable.backcard);
         boardBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.bgspeed);
@@ -686,8 +687,14 @@ public int isWin(){
 
     public void EndGame(int win) {
         int x=win;
+        DecksClear();
         Intent intent = new Intent(getContext(), Finish.class);
         intent.putExtra("x",x);
         getContext().startActivity(intent);
+    }
+
+    public void DecksClear(){
+        FB instace = FB.getInstance(context);
+        instace.FbClear();
     }
 }
