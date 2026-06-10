@@ -50,62 +50,38 @@ public class GameActivity extends AppCompatActivity {
     {
 
         board.clearPlayer1Deck1();
-        //board.newValFromFbToDeck1(fbDeck);
-        //ArrayList<Card> deck = new ArrayList<>();
+
         for (int i = 0; i < fbDeck.size(); i++) {
             Card card = new Card(this, fbDeck.get(i).getColor(), fbDeck.get(i).getValue());
             board.player1.getDeck().add(card);
         }
-        //board.setDeck1(deck);
+
         Toast.makeText(this, "new Deck1", Toast.LENGTH_SHORT).show();
     }
     public void newValFromFbToDeck2(ArrayList<FbCard> fbDeck)
     {
 
         board.clearPlayer2Deck2();
-       // board.newValFromFbToDeck2(fbDeck);
 
-        //board.newValFromFbToHand1(fbDeck);
         ArrayList<Card> deck = new ArrayList<>();
       for (int i = 0; i < fbDeck.size(); i++) {
             Card card = new Card(this, fbDeck.get(i).getColor(), fbDeck.get(i).getValue());
             board.player2.getDeck().add(card);
         }
-        //board.setDeck2(deck);
+
         Toast.makeText(this, "new Deck2", Toast.LENGTH_SHORT).show();
-
-
-
-
-
 
     }
 
 
     public void newValFromFbToHand1(ArrayList<FbCard> fbHand) {
-        board.newValFromFbToHand1(fbHand);
-/*
-        ArrayList<Card> hand = new ArrayList<>();
-        for (int i = 0; i < fbHand.size(); i++) {
-            Card card = new Card(this, fbHand.get(i).getColor(), fbHand.get(i).getValue());
-            board.player1.getHand().add(card);
 
-        }
-        //board.setHand1(hand);
-        //board.setHand1(hand);
-        Toast.makeText(this, "new Hand1", Toast.LENGTH_SHORT).show();
-*/
+        board.newValFromFbToHand1(fbHand);
 
     }
 
     public void newValFromFbToHand2(ArrayList<FbCard> fbHand) {
-       /*ArrayList<Card> hand = new ArrayList<>();
-        for (int i = 0; i < fbHand.size(); i++) {
-            Card card = new Card(this, fbHand.get(i).getColor(), fbHand.get(i).getValue());
-            board.player2.getHand().add(card);
-        }
-        //board.setHand2(hand);
-        Toast.makeText(this, "new Hand2", Toast.LENGTH_SHORT).show();*/
+
         board.newValFromFbToHand2(fbHand);
 
     }

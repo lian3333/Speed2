@@ -37,31 +37,6 @@ public class FB {
         listenerToWin();
 
 
-        //this.records = MainActivity.records;
-
-        // read the records from the Firebase and order them by the record from highest to lowest
-        // limit to only 8 items
-/*        Query myQuery = database.getReference("records").orderByChild("score").limitToLast(10);
-
-        myQuery.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange( DataSnapshot snapshot) {
-                //records.clear();  // clear the array list
-                MainActivity.records.clear();
-                for(DataSnapshot userSnapshot : snapshot.getChildren())
-                {
-                    //String str =userSnapshot.child()  .getValue(Record.class);
-                    Record currentRecord =userSnapshot.getValue(Record.class);
-                    MainActivity.records.add(0, currentRecord);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });*/
-
-
     }
 
 
@@ -139,32 +114,9 @@ public class FB {
             fbDeck.add(new FbCard(deck.get(i).getValue(),deck.get(i).getIntColor()));
         }
 
-        // Write a message to the database
-        //DatabaseReference myRef = database.getReference("player1/deck1"); // push adds new node with unique value
         myRef.setValue(fbDeck);
     }
 
-
-   /* public void setDeck1(ArrayList<Card> deck) {
-        DatabaseReference myRef = database.getReference("player1/deck1");
-
-        // 1. Prepare the new deck data first
-        ArrayList<FbCard> fbDeck = new ArrayList<>();
-        for (int i = 0; i < deck.size(); i++) {
-            fbDeck.add(new FbCard(deck.get(i).getValue(), deck.get(i).getIntColor()));
-        }
-
-        // 2. Delete the old deck by setting it to null
-        myRef.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                // 3. This code ONLY runs after the delete is successful.
-                // Now it is safe to write the new deck.
-                myRef.setValue(fbDeck);
-            }
-        });
-    }
-*/
 
 
 
@@ -207,28 +159,10 @@ public class FB {
         }
 
         // Write a message to the database
-        //DatabaseReference myRef = database.getReference("player1/deck1"); // push adds new node with unique value
+
         myRef.setValue(fbDeck);
     }
-   /* public void setDeck2(ArrayList<Card> deck) {
-        DatabaseReference myRef = database.getReference("player1/deck1");
 
-        // 1. Prepare the new deck data first
-        ArrayList<FbCard> fbDeck = new ArrayList<>();
-        for (int i = 0; i < deck.size(); i++) {
-            fbDeck.add(new FbCard(deck.get(i).getValue(), deck.get(i).getIntColor()));
-        }
-
-        // 2. Delete the old deck by setting it to null
-        myRef.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                // 3. This code ONLY runs after the delete is successful.
-                // Now it is safe to write the new deck.
-                myRef.setValue(fbDeck);
-            }
-        });
-    }*/
 
     private void listenerToDeck2() {
         DatabaseReference myRef = database.getReference("player2/deck2");

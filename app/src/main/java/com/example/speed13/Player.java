@@ -31,9 +31,9 @@ public class Player {
                 if (bitmap != null) {
                     bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
                     deck.add(new Card(context,1,i));
-                    }
                 }
             }
+       }
 
        for (int i = 1; i <= 13; i++) {
             String resourceName = "r" + i;
@@ -44,15 +44,10 @@ public class Player {
                 if (bitmap != null) {
                     bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
                      deck.add(new Card(context,2,i));
-                    }
                 }
             }
+       }
 
-        /* for (int i=1; i<=2; i++)
-        {
-            hand.add(deck.remove(0));
-
-        }*/
     }
 
     public void clearDeck1()

@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (view==btn4){
             Intent intentset=new Intent(this,Setting.class);
-            //startActivity(intentset);
             activityResultLauncher.launch(intentset);
         }
     }

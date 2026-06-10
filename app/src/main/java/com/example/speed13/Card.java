@@ -15,7 +15,7 @@ public class Card extends Location
     private int value, color;
     private boolean isopen;
     private Bitmap pic;
-    private Context context;
+    private Context context; //למטרת גישה לתמונות
 
 
     public Card(Context context, int color, int value) {
@@ -25,7 +25,6 @@ public class Card extends Location
         this.color = color;
         this.isopen = false;
         this.value = value;
-
 
             String resourceName="";
             if (color==1)
@@ -37,10 +36,6 @@ public class Card extends Location
         this.pic = BitmapFactory.decodeResource(context.getResources(), num);
 
         }
-
-    
-
-
 
 
 
@@ -76,8 +71,6 @@ public class Card extends Location
     public void Draw(Canvas canvas) {
         Rect destRect = new Rect(getX(), getY(), getX() + width, getY() + height);
         canvas.drawBitmap(this.getPic(), null, destRect, null);
-        //if (pic!=null )
-         //   canvas.drawBitmap(pic,getX(),getY(),null);
 
     }
 
@@ -95,8 +88,6 @@ public class Card extends Location
         // מחזיר את הצבע + הערך (למשל: "לב אדום 7")
         return colorName + " " + this.getValue();
     }
-
-
 
 
     public void setNewCard(int value, int color)

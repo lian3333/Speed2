@@ -48,11 +48,4 @@ public class Setting extends AppCompatActivity implements AdapterView.OnItemSele
         Toast.makeText(this, "onNothingSelected", Toast.LENGTH_SHORT).show();
     }
 
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_setting);
-    }*/
-
 }

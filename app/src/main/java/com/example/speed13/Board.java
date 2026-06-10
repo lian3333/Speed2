@@ -166,14 +166,14 @@ Board extends View {
             c1.setY(y1);
 
 
-            //c1.setIsOpen(true);
+
             player1.AddCard(c1);
 
             // שחקן 2
             Card c2 = player2.getDeck().remove(0);
             c2.setX(x2);
             c2.setY(y2);
-            //c2.setIsOpen(true);
+
             player2.AddCard(c2);
 
             x1 += cardGap;
@@ -185,14 +185,13 @@ Board extends View {
         openCard1 = player1.getDeck().remove(0);
         openCard2 = player2.getDeck().remove(0);
 
-        //this.xmid=(screenW / 2) -150 ;
-        //this.ymid=(screenH / 2) -150 ;
+
         openCard1.setX(xmid - (xmid/2)+50); // נניח חצי רוחב קלף
         openCard1.setY(ymid );
 
         openCard2.setX(xmid + (xmid/2)); // נניח חצי רוחב קלף
         openCard2.setY(ymid);
-        //openCard.setIsOpen(true);
+
     }
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
@@ -341,21 +340,7 @@ Board extends View {
                     return true;
                 }
             }
-            
-            //חדש26.2
 
-
-            // 3. בדיקה לקלף פתוח 1 (במרכז)
-            /*if (openCard1 != null && openCard1.isTouched(tx, ty)) {
-                Toast.makeText(context, "מרכז 1: " + openCard1.toString(), Toast.LENGTH_SHORT).show();
-                return true;
-            }
-
-            // 4. בדיקה לקלף פתוח 2 (במרכז)
-            if (openCard2 != null && openCard2.isTouched(tx, ty)) {
-                Toast.makeText(context, "מרכז 2: " + openCard2.toString(), Toast.LENGTH_SHORT).show();
-                return true;
-            }*/
         }
         return super.onTouchEvent(event);
     }
@@ -412,8 +397,7 @@ Board extends View {
                 FB.getInstance(context).setDeck1(player1.getDeck());
 
                 Toast.makeText(context, "מהלך מצוין!", Toast.LENGTH_SHORT).show();
-             /*else
-                {Toast.makeText(context, "הקלף אינו מתאים", Toast.LENGTH_SHORT).show();}*/
+
             }
 
             if(choose==2){
@@ -432,8 +416,6 @@ Board extends View {
 
             Toast.makeText(context, "מהלך מצוין!", Toast.LENGTH_SHORT).show();
 
-            /*else
-            {Toast.makeText(context, "הקלף אינו מתאים", Toast.LENGTH_SHORT).show();}*/
             }
         }
         // איפוס הבחירה בסוף התהליך
@@ -526,14 +508,7 @@ Board extends View {
         player1.getDeck().clear();
         player1.getDeck().addAll(deck);
         invalidate();
-      /*
-       //ArrayList<FbCard> fbDeck
-       clearPlayer1Deck1();
-        for (int i = 0; i < fbDeck.size(); i++) {
-            Card card = new Card(context, fbDeck.get(i).getColor(), fbDeck.get(i).getValue());
-            player1.getDeck().add(card);
-        }
-        invalidate(); */
+
     }
     public void newValFromFbToDeck2(ArrayList<Card> deck) {
 
@@ -545,55 +520,19 @@ Board extends View {
 
     }
 
-   /* public void setHand1(ArrayList<Card> hand) {
-        player1.getHand().clear();
-        player1.getHand().addAll(hand);
-        invalidate();
-    }*/
 
-    /*public void setHand2(ArrayList<Card> hand) {
-        player2.getHand().clear();
-        player2.getHand().addAll(hand);
-        invalidate();
-    }*/
-
-
-
-
-
-/*
-
-
-    }
-   /* @Override
-  // public void draw(Canvas canvas)
-    {
-    player1.getHand().
-    }*
-    @Override
-    protected void onDraw(@NonNull Canvas canvas) {
-        super.onDraw(canvas);
-        int width = getWidth()*7;
-        int height = getHeight();
-        Rect dest = new Rect(-100,0,width,height);
-        canvas.drawBitmap(boardBitmap,0,0,null);
-
-    }********** */
 
 
     public void newValFromFbToHand1(ArrayList<FbCard> fbHand) {
-        //ArrayList<Card> hand = new ArrayList<>();
+
         clearPlayer1Hand1();
-        //clearPlayer2Hand1();
+
 
         for (int i = 0; i < fbHand.size(); i++) {
             Card card = new Card(context, fbHand.get(i).getColor(), fbHand.get(i).getValue());
             player1.getHand().add(card);
         }
-/*        for (int i = 0; i < fbHand.size(); i++) {
-            Card card = new Card(context, fbHand.get(i).getColor(), fbHand.get(i).getValue());
-            player2.getHand().add(card);
-        }*/
+
         this.xmid=(screenW / 2) -150 ;
         this.ymid=(screenH / 2) -150 ;
         // 2. חישוב מיקומים לפי גודל המסך (screenW, screenH)
@@ -611,24 +550,19 @@ Board extends View {
             player1.getHand().get(i).setX(x1);
             player1.getHand().get(i).setY(y1);
 
-/*            player2.getHand().get(i).setX(x2);
-            player2.getHand().get(i).setY(y2);*/
+
 
             x1 += cardGap;
-           // x2 += cardGap;
+
         }
-        // קלף פתוח במרכז המסך
+
 invalidate();
     }
 
     public void newValFromFbToHand2(ArrayList<FbCard> fbHand) {
-        //ArrayList<Card> hand = new ArrayList<>();
-        //clearPlayer1Hand2();
+
         clearPlayer2Hand2();
-/*        for (int i = 0; i < fbHand.size(); i++) {
-            Card card = new Card(context, fbHand.get(i).getColor(), fbHand.get(i).getValue());
-            player1.getHand().add(card);
-        }*/
+
         for (int i = 0; i < fbHand.size(); i++) {
             Card card = new Card(context, fbHand.get(i).getColor(), fbHand.get(i).getValue());
             player2.getHand().add(card);
@@ -647,13 +581,11 @@ invalidate();
         // 3. חלוקה
         for (int i = 0; i < 4; i++) {
 
-/*            player1.getHand().get(i).setX(x1);
-            player1.getHand().get(i).setY(y1);*/
 
             player2.getHand().get(i).setX(x2);
             player2.getHand().get(i).setY(y2);
 
-            //x1 += cardGap;
+
             x2 += cardGap;
         }
 invalidate();
